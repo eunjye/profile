@@ -85,15 +85,15 @@ body { font-family:'NotoSans', 'Dotum', 'sans-serif'; font-weight:400; font-size
 
 /* bullet */
 p.bul-dot:before,
-ul.bul-dot > li:before { display:inline-block; width:2px; height:2px; margin:-4px 5px 0 -7px; vertical-align:middle; border-radius:50%; background:#888; content:""; }
-p.bul-dot { color:#888; padding-left:11px; font-size:14px; }
-ul.bul-dot > li { color:#888; margin-top:20px; padding-left:7px; font-size:14px; font-weight:300; }
+ul.bul-dot > li:before { display:inline-block; width:2px; height:2px; margin:-4px 5px 0 -7px; vertical-align:middle; border-radius:50%; background:#222; content:""; }
+p.bul-dot { color:#222; padding-left:11px; font-size:14px; }
+ul.bul-dot > li { color:#222; margin-top:20px; padding-left:7px; font-size:14px; font-weight:300; }
 ul.bul-dot > li:first-child { margin-top:0; }
 
 p.bul-hyphen:before,
 ul.bul-hyphen > li:before { display:inline-block; width:5px; height:1px; margin:-4px 5px 0 -9px; vertical-align:middle; background:#888; content:""; }
-p.bul-hyphen { color:#888; padding-left:11px; font-size:12px; }
-ul.bul-hyphen > li { color:#888; margin-top:8px; padding-left:9px; font-size:12px; font-weight:300; }
+p.bul-hyphen { color:#888; padding-left:11px; font-size:14px; }
+ul.bul-hyphen > li { color:#888; margin-top:8px; padding-left:9px; font-size:14px; font-weight:300; }
 ul.bul-hyphen > li:first-child { margin-top:0; }
 
 .tag { display:inline-block; padding:0px 5px 1px; border-radius:3px; background:#ffb516; color:#fff; font-size:12px; margin:-2px 0 0 5px; vertical-align:middle; }
