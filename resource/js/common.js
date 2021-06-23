@@ -1,6 +1,6 @@
 ;(function ($, win, doc, undefined) {
 	
-	var namespace = 'cts';
+	var namespace = 'eunjye';
 
 	win[namespace] = {
 		status: {
@@ -369,6 +369,94 @@
 				});
 				marker.setMap(map);
 			}
+		},
+		// toast popup
+		toast: {
+			opt : {
+					type: 'default',
+					target: false,  // $(target) : 필수 
+					body: false,  // $(target)
+					delay: 1400,  // number
+					message: [''], // array
+					callback: function(){} // callback
+			},
+			activeToast: [],
+			timer: [],
+			toggleToast: function(opt){
+					var _opt = opt === undefined ? {} : opt
+							, _opt = $.extend(true, {}, win[namespace].toast.opt, opt)
+							, $ts = _opt.target 
+							, alertType = _opt.type
+							, $toast = $('.ui-toast.'+alertType)
+							, $body = !_opt.body ? $('body') : _opt.body
+							, delay = _opt.delay
+							, msg = _opt.message
+							, callback = _opt.callback;
+
+					// 메세지 토글 여부
+					if (msg.length > 1) {
+							msg = !$ts.hasClass('on') ? msg[0] : msg[1];
+							$ts.toggleClass('on');
+							!$ts.find('.only-sr').length ? $ts.append('<span class="only-sr">선택됨</span>') : ''; // [20200904/jh] 접근성 관련 문구 추가
+					}
+			
+					// 활성화 토스트 배열에 넣음
+					var _idx = win[namespace].toast.activeToast.indexOf(alertType);
+					if (_idx === -1) {
+							_idx = win[namespace].toast.activeToast.length < 1 ? 0 : win[namespace].toast.activeToast.length;
+							win[namespace].toast.activeToast.push(alertType);
+					}
+
+					// 이미 같은 타입의 toast가 없을 때
+					if (!$body.find('.ui-toast.' + alertType).length){
+							var _html = '<div class="ui-toast '+alertType+'"><span>'+msg+'</span></div>';
+							$body.append(_html);
+							$toast = $('.ui-toast.'+alertType);
+							setTimeout(function () {
+									$toast.addClass('on');
+							}, 10);
+					} else { // 있을 때
+							$toast.removeClass('on');
+							setTimeout(function () {
+									$toast.addClass('on').text(msg);
+							}, 100);
+					}
+					clearTimeout(win[namespace].toast.timer[_idx]);
+
+					win[namespace].toast.timer[_idx] = setTimeout(function () {
+						win[namespace].toast.hideToast(alertType);
+							callback(); // [20200720/jh] callback 추가
+					}, delay);
+			},
+			hideToast: function(alertType) {
+					$('.ui-toast.'+alertType).removeClass('on');
+					setTimeout(function () {
+							$('.ui-toast.'+alertType).remove();
+							if (!$('.ui-toast').length) {
+									win[namespace].toast.activeToast = [];
+							}
+					}, 200);
+			},
+			run: function(){
+					// $(document).off('click.toastFavorite').on('click.toastFavorite', '.ui-toast-btn.btn-favorite', function(){
+					//     toast.toggleToast({
+					//         type: 'favorite-fund',
+					//         target: $(this),
+					//         message: [
+					//             '관심펀드로 저장되었습니다.', 
+					//             '관심펀드가 해제되였습니다.'
+					//         ]
+					//     });
+					// });
+					// $(document).off('click.toastDelete').on('click.toastDelete', '.ui-toast-btn.btn-delete', function(){
+					//     toast.toggleToast({
+					//         target: $(this),
+					//         message: [
+					//             '펀드가 삭제되었습니다.'
+					//         ]
+					//     });
+					// });
+			},
 		},
 		// cookieControl: {
 		// 	setCookie: function ( name, value, expiredays ) {

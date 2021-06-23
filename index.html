@@ -32,6 +32,12 @@
 
 					<dl class="info-list">
 						<div>
+							<dt>view source</dt>
+							<dd>
+								<a href="./sourceDetail.html" class="btn-link"><span>Go Page</span></a>
+							</dd>
+						</div>
+						<div>
 							<dt>contact</dt>
 							<dd>
 								<a href="https://github.com/eunjye" target="_blank" title="새창 열림" class="ico-link gihub">
@@ -52,8 +58,8 @@
 							<dd>
 								<ul class="bul-dot">
 									<li>
+										<strong class="tit-career">네티브 UI개발</strong>
 										<span class="period">2018.03 ~ 현재</span>
-										<strong>네티브 UI개발</strong>
 									</li>
 								</ul>
 							</dd>
@@ -63,26 +69,26 @@
 							<dd>
 								<ul class="bul-dot">
 									<li>
+										<strong class="tit-career">KB가계여신 프로젝트 <em class="tag secondary">PA</em></strong>
 										<span class="period">2021.04.16 ~ 현재</span>
-										<strong>KB가계여신 프로젝트 <em class="tag secondary">PA</em></strong>
 									</li>
 									<li>
+										<strong class="tit-career">라이나생명 브랜드 캠페인 및 이벤트 사이트 구축 <em class="tag primary">ALL</em></strong>
 										<span class="period">2020.10.19 ~ 2020.12.07</span>
-										<strong>라이나생명 브랜드 캠페인 및 이벤트 사이트 구축 <em class="tag primary">ALL</em></strong>
 										<ul class="bul-hyphen">
 											<li>전체 페이지 퍼블리싱</li>
 										</ul>
 									</li>
 									<li>
+										<strong class="tit-career">미래에셋생명 대고객 통합사이트 구축 프로젝트 <em class="tag secondary">PA</em></strong>
 										<span class="period">2020.04.01 ~ 2020.09.29</span>
-										<strong>미래에셋생명 대고객 통합사이트 구축 프로젝트 <em class="tag secondary">PA</em></strong>
 										<ul class="bul-hyphen">
 											<li>사이버창구 UI 스타일가이드 및 기능 개발</li>
 										</ul>
 									</li>
 									<li>
+										<strong class="tit-career">LG생활건강 New Avon 구축 프로젝트 <em class="tag secondary">PA</em></strong>
 										<span class="period">2020.03.16 ~ 2020.03.31</span>
-										<strong>LG생활건강 New Avon 구축 프로젝트 <em class="tag secondary">PA</em></strong>
 										<ul class="bul-hyphen">
 											<li>iframe 내부 개발</li>
 											<li>글로벌 사이트</li>
@@ -91,15 +97,15 @@
 										</ul>
 									</li>
 									<li>
+										<strong class="tit-career">K Car 통합 개편 프로젝트 <em class="tag secondary">PA</em></strong>
 										<span class="period">2019.06.17 ~ 2020.02.12</span>
-										<strong>K Car 통합 개편 프로젝트 <em class="tag secondary">PA</em></strong>
 										<ul class="bul-hyphen">
 											<li>UI 스타일가이드 및 기능 개발</li>
 										</ul>
 									</li>
 									<li>
+										<strong class="tit-career">삼성화재 다이렉트 판매 시스템 구축 <em class="tag secondary">PA</em></strong>
 										<span class="period">2018.03.15 ~ 2019.05.15</span>
-										<strong>삼성화재 다이렉트 판매 시스템 구축 <em class="tag secondary">PA</em></strong>
 										<ul class="bul-hyphen">
 											<li>UI 스타일가이드 개발</li>
 										</ul>
@@ -114,138 +120,10 @@
 
 			<script type="text/javascript">
 				;(function ($, win, doc, undefined) {
-					$(doc).on('ready.cts', function(){
-						// cts.navFixed.init();
+					$(doc).on('ready.eunjye', function(){
+						// eunjye.navFixed.init();
 
 						
-						
-						$('.btn-toggle').off('click.btnToggle').on('click.btnToggle', function(){
-							var $wrap = $('.banner-area, .slider-banner');
-							var $banners = $wrap.find('.banner-inner');
-							var $btn = $(this);
-
-							if ($wrap.hasClass('close')) {
-								$wrap.attr('data-close', 'false');
-								$wrap.removeClass('close');
-								$banners.slideDown(200, function(){
-
-								});
-								$btn.removeClass('close');
-							} else {
-								$wrap.attr('data-close', 'true');
-								$banners.slideUp(200, function(){
-									$wrap.addClass('close');
-								});
-								$btn.addClass('close');
-							}
-						})
-
-						$('.slider-banner .slider-inner').slick({
-							infinite: true,
-							speed: 400,
-							autoplay: true,
-							autoplaySpeed: 3000,
-							slidesToShow: 1,
-							slidesToScroll: 1,
-							prevArrow: $('.news .slick-prev'),
-							nextArrow: $('.news .slick-next'),
-							pauseOnHover: false,
-							dots: false,
-						});
-
-						$('.slider-news .slider-inner').slick({
-							infinite: true,
-							speed: 400,
-							autoplay: true,
-							autoplaySpeed: 8000,
-							slidesToShow: 3,
-							slidesToScroll: 1,
-							prevArrow: $('.news .slick-prev'),
-							nextArrow: $('.news .slick-next'),
-							pauseOnHover: false,
-							dots: false,
-							responsive: [
-								{
-									breakpoint: 1024,
-									settings: {
-										slidesToShow: 2,
-										slidesToScroll: 1,
-									}
-								},
-								{
-									breakpoint: 500,
-									settings: {
-										slidesToShow: 1,
-										slidesToScroll: 1,
-									}
-								},
-							]
-						})
-
-						$('.slider-program .slider-inner').slick({
-							infinite: true,
-							speed: 400,
-							autoplay: true,
-							autoplaySpeed: 8000,
-							slidesToShow: 3,
-							slidesToScroll: 1,
-							prevArrow: $('.program .slick-prev'),
-							nextArrow: $('.program .slick-next'),
-							pauseOnHover: false,
-							dots: false,
-							responsive: [
-								{
-									breakpoint: 1024,
-									settings: {
-										slidesToShow: 2,
-										slidesToScroll: 1,
-									}
-								},
-								{
-									breakpoint: 500,
-									settings: {
-										slidesToShow: 1,
-										slidesToScroll: 1,
-									}
-								},
-							]
-						})
-
-						$('.slider-partners .slider-inner').slick({
-							infinite: true,
-							speed: 400,
-							autoplay: true,
-							autoplaySpeed: 2000,
-							slidesToShow: 6,
-							slidesToScroll: 1,
-							prevArrow: $('.partners .slick-prev'),
-							nextArrow: $('.partners .slick-next'),
-							pauseOnHover: false,
-							dots: false,
-							responsive: [
-								{
-									breakpoint: 1200,
-									settings: {
-										slidesToShow: 5,
-										slidesToScroll: 1,
-									}
-								},
-								{
-									breakpoint: 1024,
-									settings: {
-										slidesToShow: 4,
-										slidesToScroll: 1,
-									}
-								},
-								{
-									breakpoint: 500,
-									settings: {
-										slidesToShow: 2,
-										slidesToScroll: 1,
-									}
-								},
-							]
-						})
 					});
 				})(jQuery, window, document);
 			</script>

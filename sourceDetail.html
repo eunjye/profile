@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+
+	<meta name="description" content="안녕하세요, 은졔입니다.">
+	<meta name="keywords" content="은지혜, 은졔, eunjye">
+
+	<title>eunjye</title>
+	
+
+	
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="./resource/css/app.css">
+
+	<script src="./resource/js/lib/jquery-1.12.4.min.js"></script>
+	<script src="./resource/js/lib/bluebird.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
+	<script src="./resource/js/common.js"></script>
+</head>
+<body>
+	<main id="wrap" class="main-wrap">
+		<header class="header-area fixed"></header>
+
+		<!-- [Start] main-area -->
+		<section class="main-area" id="main">
+			<div class="cont-area">
+				<div class="cont-grid">
+
+					<h2 class="tit-d2">js </h2>
+					<h2 class="tit-d3">Toast js</h2>
+
+          <pre><code class="js">window.eunjye.toast.toggleToast({
+  type:'favorite-fund',
+  message: ['관심펀드로 저장되었습니다.']
+})</code></pre>
+          <button type="button" class="btn-base" onclick="
+            window.eunjye.toast.toggleToast({
+              type:'favorite-fund',
+              message: ['관심펀드로 저장되었습니다.']
+            })
+          "><span>Toast 실행</span></button>
+          <button type="button" class="btn-base" onclick="
+            window.eunjye.toast.toggleToast({
+              message: ['관심펀드로 저장되었습니다.']
+            })
+          "><span>Toast 실행</span></button>
+
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				;(function ($, win, doc, undefined) {
+					$(doc).on('ready.eunjye', function(){
+						// eunjye.navFixed.init();
+						hljs.initHighlightingOnLoad();
+					});
+				})(jQuery, window, document);
+			</script>
+		</section>
+		<!-- // [End] main-area -->
+		<footer class="footer-area"></footer>
+	</main>
+</body>
+</html>
