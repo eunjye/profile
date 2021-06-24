@@ -5,7 +5,7 @@ body { font-family:'NotoSans', 'Dotum', 'sans-serif'; font-weight:400; font-size
 
 /* common
 ====================== */
-.blind { position:absolute !important; width:1px !important; height:1px !important; color:transparent !important; overflow:hidden !important; clip:rect(1px 1px 1px 1px); /* IE6, IE7 */ clip:rect(1px, 1px,1px, 1px); clip-path:inset(50%); }
+.only-sr { position:absolute !important; width:1px !important; height:1px !important; color:transparent !important; overflow:hidden !important; clip:rect(1px 1px 1px 1px); /* IE6, IE7 */ clip:rect(1px, 1px,1px, 1px); clip-path:inset(50%); }
 
 .tal { text-align:left !important; }
 .tac { text-align:center !important; }
@@ -353,6 +353,11 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance:none; margi
 .box-base { max-height:200px; overflow:auto; border:1px solid #ccc; padding:20px; font-size:14px; }
 .box-base.type-terms p { margin-top:10px; color:#666; }
 .box-base.type-terms p:first-child { margin-top:0; }
+
+pre { margin-bottom:15px; }
+pre code { position:relative; font-family:ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace; font-size:12px; }
+pre code.js:after { position:absolute; top:10px; right:10px; color:#888; font-size:12px; display:inline-block; padding:4px 7px; border:1px solid #888; border-radius:5px; content:"javascript"; }
+pre code.hljs { border-radius:5px; }
 
 /* toast */
 .ui-toast { z-index:30; position:fixed; bottom:105px; left:50%; display:block; width:auto; padding:15px 20px; margin-bottom:-10px; border-radius:5px; background:rgba(0,0,0,.7); font-size:11px; font-weight:700; color:#fff; text-align:center; opacity:0; transition:opacity ease-in .2s, margin ease-in .2s; word-break:keep-all; transform:translateX(-50%); }

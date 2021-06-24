@@ -1,50 +1,126 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="format-detection" content="telephone=no">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
 
-	<meta name="description" content="안녕하세요, 은졔입니다.">
-	<meta name="keywords" content="은지혜, 은졔, eunjye">
+  <meta name="description" content="안녕하세요, 은졔입니다.">
+  <meta name="keywords" content="은지혜, 은졔, eunjye">
 
-	<title>eunjye</title>
-	
+  <title>eunjye</title>
+  
 
-	
+  
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="./resource/css/app.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./resource/css/app.css">
 
-	<script src="./resource/js/lib/jquery-1.12.4.min.js"></script>
-	<script src="./resource/js/lib/bluebird.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
-	<script src="./resource/js/common.js"></script>
+  <script src="./resource/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="./resource/js/lib/bluebird.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
+  <script src="./resource/js/common.js"></script>
 </head>
 <body>
-	<main id="wrap" class="main-wrap">
-		<header class="header-area fixed"></header>
+  <main id="wrap" class="main-wrap">
+    <header class="header-area fixed"></header>
 
-		<!-- [Start] main-area -->
-		<section class="main-area" id="main">
-			<div class="cont-area">
-				<div class="cont-grid">
+    <!-- [Start] main-area -->
+    <section class="main-area" id="main">
+      <div class="cont-area">
+        <div class="cont-grid">
 
-					<h2 class="tit-d2">js </h2>
-					<h2 class="tit-d3">Toast js</h2>
+          <h2 class="tit-d2">js </h2>
+          <h2 class="tit-d3">Toast js</h2>
+
+          <pre><code class="js">win[namespace] = {
+  toast: {
+    opt : {
+        type: 'default',
+        target: false,  // $(target) : 필수 
+        body: false,  // $(target)
+        delay: 1400,  // number
+        message: [''], // array
+        callback: function(){} // callback
+    },
+    activeToast: [], // 활성화된 토스트 type 배열
+    timer: [],
+    toggleToast: function(opt){
+        var _opt = opt === undefined ? {} : opt;
+        var _opt = $.extend(true, {}, win[namespace].toast.opt, opt);
+        var $ts = _opt.target ;
+        var alertType = _opt.type;
+        var $toast = $('.ui-toast.'+alertType);
+        var $body = !_opt.body ? $('body') : _opt.body;
+        var delay = _opt.delay;
+        var msg = _opt.message;
+        var callback = _opt.callback;
+
+        // 메세지 토글 여부
+        /* 어떤 객체(ex:버튼)에 'on' 클래스를 토글하면서,
+        on이 없을 때(비활성화)는 첫번째 메시지를, 있을 때(활성화)는 두번째 메시지를 출력하는 기능. */
+        if (msg.length > 1) {
+            msg = !$ts.hasClass('on') ? msg[0] : msg[1];
+            $ts.toggleClass('on');
+            !$ts.find('.only-sr').length ? $ts.append('&lt;span class="only-sr">활성화됨&lt;/span>') : ''; // 접근성
+        }
+    
+        // 활성화 토스트 배열에 넣음
+        var _idx = win[namespace].toast.activeToast.indexOf(alertType); // 활성화 토스트 배열에 같은 타입 존재 여부 체크 후, 해당 인덱스를 기억
+        if (_idx === -1) { // 없을 시엔 맨 마지막 인덱스로 설정
+            _idx = win[namespace].toast.activeToast.length &lt; 1 ? 0 : win[namespace].toast.activeToast.length;
+            win[namespace].toast.activeToast.push(alertType);
+        }
+
+        // 이미 같은 타입의 toast가 없을 때는 태그를 $body에 새로 만들어 넣음
+        if (!$body.find('.ui-toast.' + alertType).length){
+            var _html = '&lt;div class="ui-toast '+alertType+'">&lt;span>'+msg+'&lt;/span>&lt;/div>';
+            $body.append(_html);
+            $toast = $('.ui-toast.'+alertType);
+            setTimeout(function () {
+                $toast.addClass('on');
+            }, 10);
+        } else { // 있을 때는 기존 토스트의 활성화 클래스의 텍스트만 교체하되, 내려갔다 올라오는 효과를 위해 토스트 객체에 on클래스를 토글시킴
+            $toast.removeClass('on');
+            setTimeout(function () {
+                $toast.addClass('on').text(msg);
+            }, 100);
+        }
+        clearTimeout(win[namespace].toast.timer[_idx]); // 같은 타입의 토스트가 이미 활성화 되어있을 때, 해당 토스트의 setTimeout을 clear시킴
+
+        // delay밀리초 후 토스트를 지움
+        win[namespace].toast.timer[_idx] = setTimeout(function () {
+          win[namespace].toast.hideToast(alertType);
+            callback(); // callback 
+        }, delay);
+    },
+    hideToast: function(alertType) {
+        $('.ui-toast.'+alertType).removeClass('on');
+        setTimeout(function () {
+            $('.ui-toast.'+alertType).remove();
+            if (!$('.ui-toast').length) {
+                win[namespace].toast.activeToast = [];
+            }
+        }, 200);
+    },
+  }
+}</code></pre>
 
           <pre><code class="js">window.eunjye.toast.toggleToast({
-  type:'favorite-fund',
-  message: ['관심펀드로 저장되었습니다.']
+  type:'favorite-fund', // 선택
+  target: $(event.target), // 선택
+  message: ['관심펀드로 저장되었습니다.', '두번째 메시지'] // 필수. 0~1개
 })</code></pre>
+
           <button type="button" class="btn-base" onclick="
             window.eunjye.toast.toggleToast({
               type:'favorite-fund',
-              message: ['관심펀드로 저장되었습니다.']
+              target: $(event.target),
+              message: ['관심펀드로 저장되었습니다.', '두번째 메시지']
             })
           "><span>Toast 실행</span></button>
           <button type="button" class="btn-base" onclick="
@@ -53,20 +129,20 @@
             })
           "><span>Toast 실행</span></button>
 
-				</div>
-			</div>
+        </div>
+      </div>
 
-			<script type="text/javascript">
-				;(function ($, win, doc, undefined) {
-					$(doc).on('ready.eunjye', function(){
-						// eunjye.navFixed.init();
-						hljs.initHighlightingOnLoad();
-					});
-				})(jQuery, window, document);
-			</script>
-		</section>
-		<!-- // [End] main-area -->
-		<footer class="footer-area"></footer>
-	</main>
+      <script type="text/javascript">
+        ;(function ($, win, doc, undefined) {
+          $(doc).on('ready.eunjye', function(){
+            // eunjye.navFixed.init();
+            hljs.initHighlightingOnLoad();
+          });
+        })(jQuery, window, document);
+      </script>
+    </section>
+    <!-- // [End] main-area -->
+    <footer class="footer-area"></footer>
+  </main>
 </body>
 </html>

@@ -383,15 +383,15 @@
 			activeToast: [],
 			timer: [],
 			toggleToast: function(opt){
-					var _opt = opt === undefined ? {} : opt
-							, _opt = $.extend(true, {}, win[namespace].toast.opt, opt)
-							, $ts = _opt.target 
-							, alertType = _opt.type
-							, $toast = $('.ui-toast.'+alertType)
-							, $body = !_opt.body ? $('body') : _opt.body
-							, delay = _opt.delay
-							, msg = _opt.message
-							, callback = _opt.callback;
+					var _opt = opt === undefined ? {} : opt;
+					var _opt = $.extend(true, {}, win[namespace].toast.opt, opt);
+					var $ts = _opt.target ;
+					var alertType = _opt.type;
+					var $toast = $('.ui-toast.'+alertType);
+					var $body = !_opt.body ? $('body') : _opt.body;
+					var delay = _opt.delay;
+					var msg = _opt.message;
+					var callback = _opt.callback;
 
 					// 메세지 토글 여부
 					if (msg.length > 1) {
