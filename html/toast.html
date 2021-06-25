@@ -18,12 +18,12 @@
   
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="./resource/css/app.css">
+  <link rel="stylesheet" href="../resource/css/app.css">
 
-  <script src="./resource/js/lib/jquery-1.12.4.min.js"></script>
-  <script src="./resource/js/lib/bluebird.min.js"></script>
+  <script src="../resource/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="../resource/js/lib/bluebird.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
-  <script src="./resource/js/common.js"></script>
+  <script src="../resource/js/common.js"></script>
 </head>
 <body>
   <main id="wrap" class="main-wrap">
@@ -33,40 +33,137 @@
     <section class="main-area" id="main">
       <div class="cont-area">
         <div class="cont-grid">
+          <h2 class="tit-d2 highlight"><span>Toast js</span></h2>
 
-          <h2 class="tit-d2">js </h2>
-          <h2 class="tit-d3">Toast js</h2>
+          <h3 class="tit-d3">Options</h3>
+          <div class="tbl-base type-opt">
+            <table>
+              <colgroup>
+                <col>
+                <col class="col-m">
+                <col class="col-m">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">key</th>
+                  <th scope="col">value type</th>
+                  <th scope="col">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">type</th>
+                  <td>String</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">target</th>
+                  <td>jQueryElement</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">body</th>
+                  <td>jQueryElement</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">delay</th>
+                  <td>number</td>
+                  <td>토스트 노출 시간(ms)</td>
+                </tr>
+                <tr>
+                  <th scope="row">message</th>
+                  <td>Array([...string])</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">endCallback</th>
+                  <td>function</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
 
+          </div>
+          
+          <h3 class="tit-d3">Run</h3>
+          <pre><code class="js">// first button
+window.eunjye.toast.toggleToast({
+  message: ['토스트 메시지']
+});
+
+// second button
+window.eunjye.toast.toggleToast({
+  type:'favorite-fund',
+  target: $('#btnA'),
+  message: ['첫번째&lt;br>메시지', '두번째&lt;br>메시지'],
+});
+
+// third button
+window.eunjye.toast.toggleToast({
+  type:'type-b',
+  target: $('#btnB'),
+  message: ['첫번째&lt;br>메시지', '두번째&lt;br>메시지'],
+  endCallback: function(){
+    alert('토스트가 사라질 때 endCallback 실행');
+  }
+})</code></pre>
+
+          <div class="btn-area">
+            <button type="button" class="btn-base" onclick="
+              window.eunjye.toast.toggleToast({
+                message: ['토스트 메시지']
+              })
+            "><span>default</span></button>
+            <button type="button" class="btn-base" id="btnA" onclick="
+              window.eunjye.toast.toggleToast({
+                type:'favorite-fund',
+                target: $('#btnA'),
+                message: ['첫번째<br>메시지', '두번째<br>메시지'],
+              })
+            "><span>favorite-fund type</span></button>
+            <button type="button" class="btn-base" id="btnB" onclick="
+              window.eunjye.toast.toggleToast({
+                target: $('#btnB'),
+                message: ['첫번째<br>메시지', '두번째<br>메시지'],
+                endCallback: function(){
+                  alert('토스트가 사라질 때 endCallback 실행');
+                }
+              })
+            "><span>with endCallback</span></button>
+            </div>
+
+          <h3 class="tit-d3">Source</h3>
           <pre><code class="js">win[namespace] = {
   toast: {
     opt : {
-        type: 'default',
-        target: false,  // $(target) : 필수 
-        body: false,  // $(target)
+        type: 'default', // string
+        target: false,  // jQueryElement
+        body: false,  // jQueryElement
         delay: 1400,  // number
         message: [''], // array
-        callback: function(){} // callback
+        endCallback: function(){} // function : 토스트객체가 사라질 때 실행
     },
     activeToast: [], // 활성화된 토스트 type 배열
     timer: [],
     toggleToast: function(opt){
         var _opt = opt === undefined ? {} : opt;
         var _opt = $.extend(true, {}, win[namespace].toast.opt, opt);
-        var $ts = _opt.target ;
+        var $toggleTarget = _opt.target ;
         var alertType = _opt.type;
         var $toast = $('.ui-toast.'+alertType);
         var $body = !_opt.body ? $('body') : _opt.body;
         var delay = _opt.delay;
         var msg = _opt.message;
-        var callback = _opt.callback;
+        var endCallback = _opt.endCallback;
 
         // 메세지 토글 여부
         /* 어떤 객체(ex:버튼)에 'on' 클래스를 토글하면서,
         on이 없을 때(비활성화)는 첫번째 메시지를, 있을 때(활성화)는 두번째 메시지를 출력하는 기능. */
         if (msg.length > 1) {
-            msg = !$ts.hasClass('on') ? msg[0] : msg[1];
-            $ts.toggleClass('on');
-            !$ts.find('.only-sr').length ? $ts.append('&lt;span class="only-sr">활성화됨&lt;/span>') : ''; // 접근성
+            msg = !$toggleTarget.hasClass('on') ? msg[0] : msg[1];
+            $toggleTarget.toggleClass('on');
+            !$toggleTarget.find('.only-sr').length ? $toggleTarget.append('&lt;span class="only-sr">활성화됨&lt;/span>') : ''; // 접근성
         }
     
         // 활성화 토스트 배열에 넣음
@@ -87,7 +184,7 @@
         } else { // 있을 때는 기존 토스트의 활성화 클래스의 텍스트만 교체하되, 내려갔다 올라오는 효과를 위해 토스트 객체에 on클래스를 토글시킴
             $toast.removeClass('on');
             setTimeout(function () {
-                $toast.addClass('on').text(msg);
+                $toast.addClass('on').html(msg);
             }, 100);
         }
         clearTimeout(win[namespace].toast.timer[_idx]); // 같은 타입의 토스트가 이미 활성화 되어있을 때, 해당 토스트의 setTimeout을 clear시킴
@@ -95,7 +192,7 @@
         // delay밀리초 후 토스트를 지움
         win[namespace].toast.timer[_idx] = setTimeout(function () {
           win[namespace].toast.hideToast(alertType);
-            callback(); // callback 
+            endCallback(); // endCallback 
         }, delay);
     },
     hideToast: function(alertType) {
@@ -110,24 +207,8 @@
   }
 }</code></pre>
 
-          <pre><code class="js">window.eunjye.toast.toggleToast({
-  type:'favorite-fund', // 선택
-  target: $(event.target), // 선택
-  message: ['관심펀드로 저장되었습니다.', '두번째 메시지'] // 필수. 0~1개
-})</code></pre>
 
-          <button type="button" class="btn-base" onclick="
-            window.eunjye.toast.toggleToast({
-              type:'favorite-fund',
-              target: $(event.target),
-              message: ['관심펀드로 저장되었습니다.', '두번째 메시지']
-            })
-          "><span>Toast 실행</span></button>
-          <button type="button" class="btn-base" onclick="
-            window.eunjye.toast.toggleToast({
-              message: ['관심펀드로 저장되었습니다.']
-            })
-          "><span>Toast 실행</span></button>
+
 
         </div>
       </div>

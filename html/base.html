@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="description" content="안녕하세요, 은졔입니다.">
+  <meta name="keywords" content="은지혜, 은졔, eunjye">
+
+  <title>eunjye</title>
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../resource/css/app.css">
+
+  <script src="../resource/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="../resource/js/lib/bluebird.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
+  <script src="../resource/js/common.js"></script>
+</head>
+<body>
+  <main id="wrap" class="main-wrap">
+    <header class="header-area fixed"></header>
+
+    <!-- [Start] main-area -->
+    <section class="main-area" id="main">
+      <div class="cont-area">
+        <div class="cont-grid">
+
+          <h2 class="tit-d2 highlight"><span>Base</span></h2>
+
+          <h3 class="tit-d3">Basic Function</h3>
+          <div class="desc-d1">
+            <ul class="bul-dot">
+              <li><strong class="fw-m">scrollCheck</strong>
+                <ul class="bul-hyphen">
+                  <li><strong class="fw-r">window.eunjye.status.scrollIsHome()</strong> : {boolean} 스크롤이 최상단에 위치하는지 여부 return</li>
+                  <li><strong class="fw-r">window.eunjye.status.scrollIsEnd()</strong> : {boolen} 스크롤이 최하단에 위치하는지 여부 return</li>
+                  <li><strong class="fw-r">window.eunjye.status.scrollDirection</strong> : {string('up'||'down')} 스크롤이 마지막에 어떤 방향으로 움직였는지 return</li>
+                </ul>
+              </li>
+          </div>
+
+          <div class="desc-d1">
+            <ul class="bul-dot">
+              <li><strong class="fw-m">isInview</strong>
+                <ul class="bul-hyphen">
+                  <li><strong class="fw-r">window.eunjye.isInview(jQueryElement)</strong> : $.fn.inView()로 true/false 체크 후, 해당 객체에 'ui-in' 클래스 토글
+                  <pre><code class="js">window.eunjye.isInview($('.tit-d2'))</code></pre>
+                  </li>
+                </ul>
+              </li>
+          </div>
+
+          <h3 class="tit-d3">Source</h3>
+          <pre><code class="js">;(function ($, win, doc, undefined) { // IIFE : 지역 scope로 한정
+
+  'use strict';
+
+  var namespace = 'eunjye';
+
+  $.fn.inView = function() {
+    var $el = $(this);
+    var _flag = false;
+
+    var _top = $el.offset().top;
+    var _left = $el.offset().left;
+    var _height = $el.outerHeight();
+    var _width = $el.outerWidth();
+
+    _flag = _top &lt; (window.pageYOffset + window.innerHeight) &&
+        _left &lt; (window.pageXOffset + window.innerWidth) &&
+        (_top + _height) > window.pageYOffset &&
+        (_left + _width) > window.pageXOffset;
+
+    return _flag;
+  };
+
+  win[namespace] = { // window.eunjye
+    status: {
+      scrollY: 0,
+      scrollDirection: '',
+      scrollOverElement: function (delta) {
+        return win[namespace].status.scrollY > delta ? true : false;
+      },
+      scrollIsHome: function () {
+        return win[namespace].status.scrollY === 0 ? true : false;
+      },
+      scrollIsEnd: function () {
+        return win[namespace].status.scrollY + $(win).outerHeight() === $(doc).outerHeight() ? true : false;
+      },
+      scrollCheck: {
+        beforeScrollY: 0,
+        direction: function () {
+          return win[namespace].status.scrollCheck.beforeScrollY &lt; win[namespace].status.scrollY ?
+            'down' : 'up';
+        },
+        init: function () {
+          function bodyAddClass() {
+            var $body = $('body');
+            if (!!win[namespace].status.scrollIsHome()) {
+              $body.addClass('is-home');
+            } else if (!!win[namespace].status.scrollIsEnd()) {
+              $body.addClass('is-end');
+            } else {
+              $body.removeClass('is-home is-end');
+            }
+          }
+          win[namespace].status.scrollY = $('html').prop('scrollTop');
+          win[namespace].status.scrollIsHome();
+          win[namespace].status.scrollIsEnd();
+          bodyAddClass();
+
+          $(doc).off('scroll.scrollCheck').on('scroll.scrollCheck', function () {
+            win[namespace].status.scrollY = $('html').prop('scrollTop');
+            win[namespace].status.scrollDirection = win[namespace].status.scrollCheck.direction(); // return {'up' || 'down'}
+            win[namespace].status.scrollCheck.beforeScrollY = win[namespace].status.scrollY;
+            win[namespace].status.scrollIsHome(); // return {boolean}
+            win[namespace].status.scrollIsEnd(); // return  {boolean}
+            bodyAddClass();
+          });
+
+        }
+      }
+    },
+    checkBrowserSize: function () {
+      var _winW = $(win).outerWidth();
+      var size = '';
+
+      if (_winW &lt; 764) {
+        size = 'mobile';
+      } else if (_winW &lt; 1025) {
+        size = 'tablet';
+      } else {
+        size = 'pc';
+      }
+      $('html').attr('data-size', size);
+
+      return size;
+    },
+    isInview: function ($el, callback) {
+      $(doc).on('scroll.' + namespace, function () {
+        // inView()로 true/false 체크 후, 해당 객체에 클래스 토글
+        if ($el.inView()) {
+          $el.addClass('ui-in'); 
+        } else {
+          $el.removeClass('ui-in');
+        }
+      });
+    },
+
+    // ... do something
+
+    // 공통적으로 실행시킬 함수들 실행
+    init: function () {
+      $(win).off('.' + namespace)
+        .on('resize.' + namespace, function () {
+          win[namespace].checkBrowserSize();
+        });
+
+      $(doc).on('ready.' + namespace, function () {
+        win[namespace].checkBrowserSize();
+
+        win[namespace].navLoad();
+        win[namespace].footerLoad();
+        win[namespace].status.scrollCheck.init();
+
+        win[namespace].nav.hoverMenu(); // hover evt on nav
+        win[namespace].nav.slidingMenu(); // show/hide evt on nav
+        win[namespace].nav.openDepth2(); // 2depth links evt on nav
+
+        win[namespace].acco.init();
+
+        $(doc).on('click', '.btn-top', function () {
+          $('body, html').animate({
+            scrollTop: 0
+          }, 200)
+        })
+
+
+      })
+      $(doc).on('scroll.' + namespace, function () {
+
+      })
+    }
+  }
+
+  win[namespace].init();
+})(jQuery, window, document);</code></pre>
+
+
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        ;(function ($, win, doc, undefined) {
+          $(doc).on('ready.eunjye', function(){
+            // eunjye.navFixed.init();
+            hljs.initHighlightingOnLoad();
+          });
+        })(jQuery, window, document);
+      </script>
+    </section>
+    <!-- // [End] main-area -->
+    <footer class="footer-area"></footer>
+  </main>
+</body>
+</html>

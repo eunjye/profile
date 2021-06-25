@@ -37,8 +37,8 @@
 	.br { display:none; }
 
 	/* button */
-	.btn-base { height:40px; padding:0 20px; line-height:36px; }
-	.btn-close { width:40px; height:40px; }
+	/* .btn-base { height:40px; padding:0 20px; line-height:36px; }
+	.btn-close { width:40px; height:40px; } */
 
 	/* icon */
 	.btn-base .ico-arr { transform:scale(0.7); margin-top:-6px; }
@@ -70,28 +70,30 @@
 	
 
 	.logo img { width:130px; height:auto; }
-	.gnb-area .nav-d1 a { display:block; height:50px; line-height:52px; padding:0 15px; border-bottom:1px solid #e8e7e7; overflow:hidden; align-items:center; ;}
-	.nav-d1 { position:relative; flex:0 0 100%; height:calc(100% - 39px); padding:0;overflow-y:auto; font-size:20px; }
+	.gnb-area .nav-d1 .item,
+	.gnb-area .nav-d1 a { display:block; height:auto; padding:13px 15px 15px; border-bottom:1px solid #e7e7e7; overflow:hidden; align-items:center; color:inherit; font-weight:400; }
+	.nav-d1 { position:relative; flex:0 0 100%; height:calc(100% - 39px); padding:0;overflow-y:auto; font-size:20px; border-top:1px solid #e7e7e7; }
 	.nav-d1 > p { display:block; position:absolute; top:50%; left:0; width:100%; transform:translateY(-50%); color:#999; text-align:center; }
 	.nav-d1 > p span { border-bottom:1px solid #999; font-weight:300; }
 	.nav-d1 > li { display:block; margin:0; color:#000; font-size:20px; text-align:left; }
-	.nav-d1 > li > a:hover, 
-	.nav-d1 > li:hover > a,
-	.nav-d1 > li > a:focus, 
-	.nav-d1 > li:focus > a { color:inherit; }
-	.nav-d1 > li > a { position:relative; font-size:16px; font-weight:700; background:#f8f9fa; }
-	.nav-d1 > li > a:after { position:absolute; right:15px; top:15px; display:block; width:10px; height:10px; border-top:1px solid #454545; border-right:1px solid #454545; margin:2px 4px 0 0; transform:rotate(135deg); content:""; }
-	.nav-d1 > li > a:only-child:after { display:none; }
-	.nav-d1 > li.on > a { background:#507BD6; color:#fff; }
-	.nav-d1 > li.on > a:after { border-color:#fff; margin-top:8px; transform:rotate(-45deg); }
+	.nav-d1 > li > .item:hover, 
+	.nav-d1 > li:hover > .item,
+	.nav-d1 > li > .item:focus, 
+	.nav-d1 > li:focus > .item { color:inherit; }
+	.nav-d1 > li > .item { position:relative; font-size:16px; }
+	.nav-d1 > li > .item:after { position:absolute; right:15px; top:15px; display:block; width:10px; height:10px; border-top:1px solid #454545; border-right:1px solid #454545; margin:2px 4px 0 0; transform:rotate(135deg); content:""; }
+	.nav-d1 > li > .item:only-child:after { display:none; }
+	.nav-d1 > li.on > .item { background:#1f1f1f; color:#fff; }
+	.nav-d1 > li.on > .item:after { border-color:#fff; margin-top:8px; transform:rotate(-45deg); }
 	.nav-d2 { display:none; position:static; width:100%; margin:0; text-align:left; }
 	.nav-d1 > li.on .nav-d2 { display:block; }
+	.on .nav-d2 { box-shadow:inset 0 5px 0 rgba(0,0,0,.1);}
 	.nav-d2 > li { margin:0; }
-	.nav-d2 > li a { font-size:15px; font-weight:400; }
+	.nav-d2 > li a { font-size:13px; font-weight:300; }
 
 	/* table */
 	.tbl-base th,
-	.tbl-base td { padding:10px; font-size:16px; }
+	.tbl-base td { padding:5px; font-size:14px; }
 	.tbl-scroll { width:100%; overflow-x:auto; }
 	.tbl-scroll > table { width:auto; }
 
@@ -127,9 +129,9 @@
 @media (max-width:765px) {
 	.inp { height:40px; min-height:40px; line-height:42px; }
 	.selectbox { height:40px; min-height:40px; }
-
+/* 
 	.btn-base.size-xl { height:45px; line-height:41px; font-size:14px; }
-	.btn-base.size-l { height:40px; line-height:40px; }
+	.btn-base.size-l { height:40px; line-height:40px; } */
 
 	.lb-rdo, .lb-chk { font-size:12px; }
 	.lb-chk:before { zoom:0.8; }
@@ -146,7 +148,7 @@
 	.form-area.type-tel .telnum .inp-area .count { right:15px; }
 	/* table */
 	.tbl-base th,
-	.tbl-base td { font-size:14px; }
+	.tbl-base td { font-size:13px; }
 
 	/* .cont-inner { margin-top:35px; } */
 
@@ -163,8 +165,8 @@
 
 	.btn-base .ico-arr { margin-left:-2px; margin-right:-8px; }
 
-	.btn-base, .btn-base.secondary { font-size:14px; }
-	.btn-base.size-xs { font-size:12px; margin-top:-7px; margin-left:5px; }
+	/* .btn-base, .btn-base.secondary { font-size:14px; }
+	.btn-base.size-xs { font-size:12px; margin-top:-7px; margin-left:5px; } */
 	
 	p.bul-dot,
 	ul.bul-dot > li { font-size:14px; padding-left:10px; }
