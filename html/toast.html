@@ -39,9 +39,9 @@
           <div class="tbl-base type-opt">
             <table>
               <colgroup>
-                <col>
-                <col class="col-m">
-                <col class="col-m">
+                <col class="col-xxs">
+                <col class="col-s">
+                <col class="col-l">
               </colgroup>
               <thead>
                 <tr>
@@ -54,17 +54,22 @@
                 <tr>
                   <th scope="row">type</th>
                   <td>String</td>
-                  <td></td>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>토스트 팝업의 namespace 값</li>
+                      <li>해당값은 토스트 객체의 클래스명으로 부여됨</li>
+                    </ul>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">target</th>
                   <td>jQueryElement</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row">body</th>
-                  <td>jQueryElement</td>
-                  <td></td>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>message 옵션 배열값에 두 개의 값이 있어야 함</li>
+                      <li>대상 객체(ex:버튼)에 'on' 클래스를 토글하면서, 'on'클래스가 없을 때(비활성화)는 첫번째 메시지를, 있을 때(활성화)는 두번째 메시지를 출력</li>
+                    </ul>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">delay</th>
@@ -72,14 +77,19 @@
                   <td>토스트 노출 시간(ms)</td>
                 </tr>
                 <tr>
-                  <th scope="row">message</th>
+                  <th scope="row">message<i class="ico-require"><span>필수</span></i></th>
                   <td>Array([...string])</td>
-                  <td></td>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>토스트 객체에 보여줄 메시지(html)</li>
+                      <li>배열값이 두 개일 시 target 옵션과 함께, 두 메시지를 번갈아 보여줌</li>
+                    </ul>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">endCallback</th>
                   <td>function</td>
-                  <td></td>
+                  <td>토스트가 사라질 시 실행시킬 function</td>
                 </tr>
               </tbody>
             </table>

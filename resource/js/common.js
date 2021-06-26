@@ -502,6 +502,164 @@
     // 		}
     // 	}
     // },
+    /**
+     * 
+     * @param {String} status (ready, play)
+     * @param {String} type
+     * @param {Number || String} duration (1000 || 'infinite')
+     * @param {function} callback
+     */
+    animationTimer: {},
+    animationStop: {},
+    sequence: undefined,
+    animationStatus: function(status, type, duration, callback) {
+      if (status === 'stop') {
+        clearTimeout(win[namespace].animationStop);
+        cancelAnimationFrame(win[namespace].animationTimer);
+        return; 
+      }
+
+      var jsonSource;
+      
+      if (win[namespace].sequence === undefined) {
+        $.ajax({
+          url: '/profile/resource/js/json/animation.json',
+          dataType: 'json',
+          success: function(data){
+            win[namespace].sequence = data;
+            startAnimation();
+          }
+        })
+      } else {
+        startAnimation();
+      }
+
+      function startAnimation() {
+
+        jsonSource = win[namespace].sequence[type];
+        
+  
+        var _cvs = document.querySelector('#canvasCharacter');
+        var _ctx = _cvs.getContext('2d');
+        var _maxFrame = 30;
+        var _minHeight = 700;
+  
+        var _dx = 0;
+        var _dy = 0;
+  
+        // switch (type)	{
+        //   case 'b':
+        //   _dx = 240;
+        //   break;
+  
+        //   case 'c':
+        //   _dx = 380;
+        //   break;
+  
+        //   case 'd':
+        //   _dx = 270;
+        //   break;
+  
+        //   case 'e1':
+        //   _dx = 400;
+        //   break;
+  
+        //   case 'e2':
+        //   _dx = 400;
+        //   break;
+        // }
+  
+        // switch (type)	{
+  
+        //   case 'f':
+        //   _dy = 80;
+        //   break;
+  
+        //   case 'c':
+        //   _dy = 70;
+        //   break;
+  
+        //   case 'e2':
+        //   _dy = 120;
+        //   break;
+        // }
+  
+        var _img = new Image();
+        _img.src = '/profile/resource/img/'+type+'.png';
+        _img.onload = function(e) {
+          _cvs.width = 500;
+          _cvs.height = _minHeight;
+  
+          _ctx.drawImage(_img, 0, 0, 700, _minHeight, _dx, _dy, 700, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+          _cvs.classList = 'type-'+type;
+  
+          if (status !== 'play'){
+            !!callback && callback();
+          }
+        }
+  
+        if (status === 'play'){
+          _img.onload = function(e) {
+            !!callback && callback();
+            doAnimation();
+          }
+  
+          var count = 0;
+          var frame = 10000;
+          var frameLength = Object.keys(jsonSource.frames).length;
+          clearTimeout(win[namespace].animationStop);
+          doAnimation();
+              
+          function doAnimation() {
+            cancelAnimationFrame(win[namespace].animationTimer);
+            count++;
+            frame = 10000 + parseInt(count/3);
+            if (frame - 10000 < frameLength - 1) {
+              setBgAndTimer();
+            } else if (!duration) { // duration이 없을 땐 1세트만
+              cancelAnimationFrame(win[namespace].animationTimer);
+            } else { // duration이 있고 시간이 아직 남았으면
+              count = 0;
+  
+              if (type === 'f') {
+                count = 27*3;
+              }
+  
+              setBgAndTimer();
+            }
+  
+            function setBgAndTimer() {
+              var frameInfo = jsonSource.frames['character'+frame].frame;
+              _cvs.width = _cvs.width;
+              _ctx.drawImage(_img, frameInfo.x, frameInfo.y, frameInfo.w, _minHeight, _dx, _dy, frameInfo.w, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+              win[namespace].animationTimer = requestAnimationFrame(doAnimation)
+            }
+          }
+  
+          function endMotion() {
+            frame = frameLength - 1 + 10000;
+  
+            switch (type) {  
+              case 'animation1':
+              frame = frameLength - 6 + 10000;
+              break;
+            }
+            var frameInfo = jsonSource.frames['character'+frame].frame;
+  
+            _cvs.width = _cvs.width;
+            _ctx.drawImage(_img, frameInfo.x, frameInfo.y, frameInfo.w, _minHeight, _dx, _dy, frameInfo.w, _minHeight);
+          }
+  
+          if (!!duration && duration !== 'infinite') {
+            win[namespace].animationStop = setTimeout(function(){
+              endMotion();
+              cancelAnimationFrame(win[namespace].animationTimer);
+            }, duration)
+          } 
+        }
+        
+      }
+    },
     init: function () {
 
       $(win).off('.' + namespace)

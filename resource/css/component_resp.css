@@ -127,6 +127,10 @@
 	.app-list > li {margin:10px 5px; zoom:0.8}
 }
 @media (max-width:765px) {
+	pre code.hljs { padding-top:40px; }
+	pre code.hljs:after { top:12px; left:10px; right:auto; font-size:10px; padding:2px 4px; }
+
+
 	.inp { height:40px; min-height:40px; line-height:42px; }
 	.selectbox { height:40px; min-height:40px; }
 /* 
