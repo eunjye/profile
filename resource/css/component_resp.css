@@ -93,7 +93,7 @@
 
 	/* table */
 	.tbl-base th,
-	.tbl-base td { padding:5px; font-size:14px; }
+	.tbl-base td { font-size:14px; }
 	.tbl-scroll { width:100%; overflow-x:auto; }
 	.tbl-scroll > table { width:auto; }
 
@@ -130,6 +130,8 @@
 	pre code.hljs { padding-top:40px; }
 	pre code.hljs:after { top:12px; left:10px; right:auto; font-size:10px; padding:2px 4px; }
 
+	.tbl-base.type-opt { overflow:auto; }
+
 
 	.inp { height:40px; min-height:40px; line-height:42px; }
 	.selectbox { height:40px; min-height:40px; }
@@ -154,6 +156,8 @@
 	.tbl-base th,
 	.tbl-base td { font-size:13px; }
 
+
+
 	/* .cont-inner { margin-top:35px; } */
 
 	/* .tit-sub { font-size:20px; }
@@ -172,10 +176,13 @@
 	/* .btn-base, .btn-base.secondary { font-size:14px; }
 	.btn-base.size-xs { font-size:12px; margin-top:-7px; margin-left:5px; } */
 	
+	p.bul-hyphen,
+	ul.bul-hyphen > li { font-size:13px; }
 	p.bul-dot,
-	ul.bul-dot > li { font-size:14px; padding-left:10px; }
+	ul.bul-dot > li { font-size:13px; padding-left:10px; }
+	ul.bul-dot > li { margin-top:5px; }
 	p.bul-dot:before, 
-	ul.bul-dot > li:before { width:3px; height:3px; margin:-2px 4px 0 -8px; }
+	ul.bul-dot > li:before { top:7px; width:2px; height:2px; }
 
 	.bbs-list > li { margin-top:10px; }
 	.article-item .desc { font-size:15px; }
