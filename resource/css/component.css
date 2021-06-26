@@ -471,7 +471,7 @@ pre code.hljs { border-radius:5px; }
 	.only-resp { display:none !important; }
 	.user-info { display:none; }
 	
-	.header-area.hover .header-inner { height:310px; box-shadow:0 5px 8px rgba(0,0,0,.1); }
+	.header-area.hover .header-inner { height:200px; box-shadow:0 5px 8px rgba(0,0,0,.1); }
 	.header-area.hover .nav-d1 > li { color:#000; font-weight:400; }
 	.header-area.hover .nav-d2 { display:block; }
 
