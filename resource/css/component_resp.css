@@ -2,6 +2,9 @@
 
 /* tablet & mobile */
 @media (max-width:1024px) {
+	.cont-grid .list-wrap { margin-left:-25px; margin-right:-25px; }
+	.cont-grid .hr-divide { margin-left:-25px; margin-right:-25px; }
+
 	.contact-link.mail i { display:none; }
 	.contact-link.tel i { width:auto; height:auto; line-height:inherit; }
 	.contact-link span { opacity:1; border:0; height:auto; line-height:inherit; }

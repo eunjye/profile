@@ -1,10 +1,11 @@
-;(function ($, win, doc, undefined) {
+;
+(function ($, win, doc, undefined) {
 
   'use strict';
 
   var namespace = 'eunjye';
 
-  $.fn.inView = function() {
+  $.fn.inView = function () {
     var $el = $(this);
     var _flag = false;
 
@@ -14,9 +15,9 @@
     var _width = $el.outerWidth();
 
     _flag = _top < (window.pageYOffset + window.innerHeight) &&
-        _left < (window.pageXOffset + window.innerWidth) &&
-        (_top + _height) > window.pageYOffset &&
-        (_left + _width) > window.pageXOffset;
+      _left < (window.pageXOffset + window.innerWidth) &&
+      (_top + _height) > window.pageYOffset &&
+      (_left + _width) > window.pageXOffset;
 
     return _flag;
   };
@@ -262,7 +263,7 @@
         return 'Internet Explorer ' + rv;
       }
     },
-    acco: {
+    accordion: {
       open: function (SPEC) {
         var _spec = $.extend({}, {
           openOnly: true
@@ -285,12 +286,12 @@
 
           if (win[namespace].isBrowser().indexOf('Internet Explorer') !== -1 ||
             win[namespace].isBrowser().indexOf('Mozilla') !== -1) {
-            win[namespace].acco.close({
+            win[namespace].accordion.close({
               noTargetIndex: openIndex,
               closeBack: accoToggle
             });
           } else {
-            win[namespace].acco.close({
+            win[namespace].accordion.close({
               noTargetIndex: openIndex
             });
             accoToggle();
@@ -338,23 +339,23 @@
         });
 
         if (openIndex !== undefined) {
-          win[namespace].acco.open({
+          win[namespace].accordion.open({
             targetIndex: openIndex
           });
         }
       },
       init: function (SPEC) {
-        win[namespace].acco.set(SPEC);
+        win[namespace].accordion.set(SPEC);
 
         $(document).off('click.clickAccoBtn').on('click.clickAccoBtn', '.acco-btn', function () {
           if (!$(this).hasClass('type-link')) {
             var targetIndex = $('.ui-acco .acco-btn').index($(this));
             if ($(this).hasClass('on')) {
-              win[namespace].acco.close({
+              win[namespace].accordion.close({
                 targetIndex: targetIndex
               });
             } else {
-              win[namespace].acco.open({
+              win[namespace].accordion.open({
                 targetIndex: targetIndex
               });
             }
@@ -362,6 +363,260 @@
         });
       }
     },
+
+    /* 아코디언 Action
+    ---------------------- */
+    listAcco: {
+      togglePnl: function ($item) {
+        var $pnl = $item.children('.list-pnl')
+        var $toggleElements = $item.find('[data-showhide="true"]')
+        var isOpened = $pnl.hasClass('on');
+
+        if (isOpened) {
+          if (!!$toggleElements.length) {
+            $toggleElements.css({
+              'visibility': 'visible'
+            }).attr('aria-hidden', 'false').stop().animate({
+              opacity: 1
+            }, 200);
+          }
+          $pnl.slideUp(200, function () {
+            $pnl.removeClass('on');
+          });
+          $item.find('.list-view-btn').removeClass('on');
+          $item.find('.list-view-btn span').text('열기');
+        } else {
+          if (!!$toggleElements.length) {
+            $toggleElements.stop().animate({
+              opacity: 0
+            }, 200, function () {
+              $toggleElements.css({
+                'visibility': 'hidden'
+              }).attr('aria-hidden', 'true');
+            });
+          }
+          if (!!$item.closest('.tab-cont').length) {
+            win[namespace].moveData.nowPnlX = $('.data-items').eq(0).prop('scrollLeft');
+          }
+          $pnl.slideDown(200, function () {
+            $pnl.addClass('on');
+          }).find('.data-items').prop('scrollLeft', win[namespace].moveData.nowPnlX);
+          $item.find('.list-view-btn').addClass('on');
+          $item.find('.list-view-btn span').text('닫기');
+        };
+      },
+      // accordion event run!!
+      init: function () {
+        if ((win[namespace].checkBrowserSize() !== 'pc')) {
+          var evtClick = 'touch.list click.list'
+        } else {
+          var evtClick = 'click.list';
+        }
+        $(document)
+          .off(evtClick)
+          .on(evtClick, '.list-wrap .list-view-btn', function () {
+            win[namespace].listAcco.togglePnl($(this).closest('.list-item'));
+          })
+          .on(evtClick, '.list-wrap .list-item', function (e) {
+            var noTarget = ['a', 'label', 'button', 'input', '.list-overlay', '.list-cover', '.unit'];
+            var _flag = true;
+
+            if (!(win[namespace].checkBrowserSize() !== 'pc')) noTarget.push('.list-item.open-pc'); // PC에서 open 막음
+
+            noTarget.forEach(function (element) {
+              if (!!$(e.target).closest(element).length) {
+                _flag = false;
+              }
+            })
+            if (_flag && !!$(this).find('.list-pnl').length) {
+              win[namespace].listAcco.togglePnl($(this));
+            };
+          });
+      }
+    },
+    // data-wrap ui-acco-btn evt
+    dataAcco: {
+      init: function () {
+        if ((win[namespace].checkBrowserSize() !== 'pc')) {
+          var evtClick = 'touch.dataList click.dataList';
+        } else {
+          var evtClick = 'click.dataList';
+        }
+        $(document)
+          .off(evtClick)
+          .on(evtClick, '.data-wrap .ui-acco-btn', function (e) {
+            $(this).closest('.data-item').toggleClass('on');
+          })
+          .on(evtClick, '.data-wrap .data-item', function (e) {
+            var noTarget = ['a', 'label', 'button', 'input'];
+            var _flag = true;
+
+            noTarget.forEach(function (element) {
+              if (!!$(e.target).closest(element).length) {
+                _flag = false;
+              }
+            })
+            if (_flag && !!$(this).find('.ui-acco-btn').length) {
+              $(this).find('.ui-acco-btn').click();
+            };
+          });
+      }
+    },
+    /* 데이터 좌우 스크롤 Action
+    ---------------------- */
+    moveData: {
+      // 현재 패널의 X좌표값 가져오기
+      nowPnlX: 0,
+      move: function () {
+        $('.list-wrap .data-items')
+          .off('touchstart.moveListData').on('touchstart.moveListData', function () {
+            $('.list-wrap .data-items').removeClass('target');
+            $(this).addClass('target');
+          })
+          .off('scroll.moveListData').on('scroll.moveListData', function () {
+            if (!$(this).hasClass('target')) {
+              return false;
+            }
+            var $ts = $(this);
+            var $wrap = $('.list-wrap');
+            if (!!$ts.closest('.ui-modal-cont').length) {
+              $wrap = $ts.closest('.ui-modal-cont').find('.list-wrap');
+            }
+            if (!!$ts.closest('.tab-cont').length) {
+              $wrap = $ts.closest('.tab-cont').find('.list-wrap');
+            }
+
+            var $scr = $wrap.find('.data-items');
+            var _x = $ts.prop('scrollLeft');
+
+            _x = _x <= 0 ? 0 : _x;
+
+            win[namespace].moveData.nowPnlX = _x;
+            $scr.not($ts).prop('scrollLeft', _x);
+          });
+      },
+      init: function () {
+        win[namespace].moveData.move();
+        $(document)
+          .on('DOMNodeInserted', '.list-wrap .list-item', function () {
+            win[namespace].moveData.move();
+          });
+      }
+    },
+    /* Overlay Action
+    ---------------------- */
+    overlay: {
+      // overlay 열기
+      open: function (opt) {
+        var $el = opt.item;
+        var $wrap = opt.wrap;
+
+        $el.children('.inner').css('width', $wrap.outerWidth());
+        $el.addClass('on').attr('aria-hidden', 'false').stop().animate({
+          width: $wrap.outerWidth()
+        }, 300);
+      },
+      // overlay 닫기
+      close: function (opt) {
+        var $el = opt.item;
+        var $wrap = opt.wrap;
+
+        $el.attr('aria-hidden', 'true').stop().animate({
+          width: 0
+        }, 300, function () {
+          $el.removeClass('on');
+        });
+      },
+      // overlay event run!!
+      init: function () {
+        var evt = '';
+        if ((win[namespace].checkBrowserSize() !== 'pc')) {
+          evt = 'touch.listOverlay click.listOverlay';
+        } else {
+          evt = 'click.listOverlay';
+        }
+        (win[namespace].checkBrowserSize() !== 'pc') ? $('.list-pnl').attr('tabIndex', 0): '';
+        $('.list-pnl.on').closest('.list-item').find('[data-showhide="true"]').css({
+          'opacity': 0,
+          'visibility': 'hidden'
+        }).attr('aria-hidden', 'true');
+        $('.list-overlay').not('.on').attr('aria-hidden', 'true');
+
+        $(document).off(evt).on(evt, '.btn-myfund', function (e) {
+          var $ts = $(e.target);
+          var $btn = $ts.closest('.btn-myfund');
+          var $wrap = $ts.closest('.list-item');
+          var $overlay = $wrap.find('.list-overlay');
+
+          if (!$btn.hasClass('on')) {
+            win[namespace].overlay.open({
+              item: $overlay,
+              wrap: $wrap
+            });
+            $btn.addClass('on');
+          } else {
+            win[namespace].overlay.close({
+              item: $overlay,
+              wrap: $wrap
+            });
+            $btn.removeClass('on');
+          }
+        }).on(evt, '.btn-overlay-x', function (e) {
+          var $ts = $(e.target);
+          var $btn = $ts.closest('.btn-overlay-x');
+          var $wrap = $btn.closest('.list-item');
+          var $overlay = $wrap.find('.list-overlay');
+          var $btnFund = $wrap.find('.btn-myfund');
+
+          win[namespace].overlay.close({
+            item: $overlay,
+            wrap: $wrap
+          });
+          $btnFund.removeClass('on');
+        });
+      }
+    },
+    /* CRUD Action
+    ---------------------- */
+    CRUD: {
+      delete: function(_opt){
+          var $btn;
+          if (_opt !== undefined) {
+              var opt = {
+                  item: {}
+              };
+              opt = $.extend(true, opt, _opt);
+              $btn = opt.item;
+          } else {
+              $btn = $(event.target)
+          }
+          var $wrap = $btn.closest('.list-wrap')
+              , $item = $btn.closest('.list-item')
+              , _w = $item.outerWidth()
+              , _h = $item.outerHeight();
+
+          $item.css({'height': _h});
+          !$item.children('.inner').length ? $item.wrapInner('<div class="inner"></div>') : '';
+          var $inner = $item.children('.inner');
+          $inner.css('width', _w);
+          $item.find('.data-items').prop('scrollLeft', win[namespace].moveData.nowPnlX);
+
+          $wrap.css('overflow', 'hidden');
+          $inner.animate({
+              left: -$inner.closest('.list-wrap').outerWidth(),
+          }, 600, '', function(){
+              $item.animate({
+                  height: 0
+              }, 350, '', function(){
+                  $item.remove();
+                  $wrap.css('overflow', 'visible');
+              });
+          });
+      },
+      init: function(){
+      }
+  },
+
     mainSlider: {
       slide: {},
       init: function () {
@@ -512,20 +767,20 @@
     animationTimer: {},
     animationStop: {},
     sequence: undefined,
-    animationStatus: function(status, type, duration, callback) {
+    animationStatus: function (status, type, duration, callback) {
       if (status === 'stop') {
         clearTimeout(win[namespace].animationStop);
         cancelAnimationFrame(win[namespace].animationTimer);
-        return; 
+        return;
       }
 
       var jsonSource;
-      
+
       if (win[namespace].sequence === undefined) {
         $.ajax({
           url: '/profile/resource/js/json/animation.json',
           dataType: 'json',
-          success: function(data){
+          success: function (data) {
             win[namespace].sequence = data;
             startAnimation();
           }
@@ -537,127 +792,127 @@
       function startAnimation() {
 
         jsonSource = win[namespace].sequence[type];
-        
-  
+
+
         var _cvs = document.querySelector('#canvasCharacter');
         var _ctx = _cvs.getContext('2d');
         var _maxFrame = 30;
         var _minHeight = 700;
-  
+
         var _dx = 0;
         var _dy = 0;
-  
+
         // switch (type)	{
         //   case 'b':
         //   _dx = 240;
         //   break;
-  
+
         //   case 'c':
         //   _dx = 380;
         //   break;
-  
+
         //   case 'd':
         //   _dx = 270;
         //   break;
-  
+
         //   case 'e1':
         //   _dx = 400;
         //   break;
-  
+
         //   case 'e2':
         //   _dx = 400;
         //   break;
         // }
-  
+
         // switch (type)	{
-  
+
         //   case 'f':
         //   _dy = 80;
         //   break;
-  
+
         //   case 'c':
         //   _dy = 70;
         //   break;
-  
+
         //   case 'e2':
         //   _dy = 120;
         //   break;
         // }
-  
+
         var _img = new Image();
-        _img.src = '/profile/resource/img/'+type+'.png';
-        _img.onload = function(e) {
+        _img.src = '/profile/resource/img/' + type + '.png';
+        _img.onload = function (e) {
           _cvs.width = 500;
           _cvs.height = _minHeight;
-  
+
           _ctx.drawImage(_img, 0, 0, 700, _minHeight, _dx, _dy, 700, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-          _cvs.classList = 'type-'+type;
-  
-          if (status !== 'play'){
+          _cvs.classList = 'type-' + type;
+
+          if (status !== 'play') {
             !!callback && callback();
           }
         }
-  
-        if (status === 'play'){
-          _img.onload = function(e) {
+
+        if (status === 'play') {
+          _img.onload = function (e) {
             !!callback && callback();
             doAnimation();
           }
-  
+
           var count = 0;
           var frame = 10000;
           var frameLength = Object.keys(jsonSource.frames).length;
           clearTimeout(win[namespace].animationStop);
           doAnimation();
-              
+
           function doAnimation() {
             cancelAnimationFrame(win[namespace].animationTimer);
             count++;
-            frame = 10000 + parseInt(count/3);
+            frame = 10000 + parseInt(count / 3);
             if (frame - 10000 < frameLength - 1) {
               setBgAndTimer();
             } else if (!duration) { // duration이 없을 땐 1세트만
               cancelAnimationFrame(win[namespace].animationTimer);
             } else { // duration이 있고 시간이 아직 남았으면
               count = 0;
-  
+
               if (type === 'f') {
-                count = 27*3;
+                count = 27 * 3;
               }
-  
+
               setBgAndTimer();
             }
-  
+
             function setBgAndTimer() {
-              var frameInfo = jsonSource.frames['character'+frame].frame;
+              var frameInfo = jsonSource.frames['character' + frame].frame;
               _cvs.width = _cvs.width;
               _ctx.drawImage(_img, frameInfo.x, frameInfo.y, frameInfo.w, _minHeight, _dx, _dy, frameInfo.w, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
               win[namespace].animationTimer = requestAnimationFrame(doAnimation)
             }
           }
-  
+
           function endMotion() {
             frame = frameLength - 1 + 10000;
-  
-            switch (type) {  
+
+            switch (type) {
               case 'animation1':
-              frame = frameLength - 6 + 10000;
-              break;
+                frame = frameLength - 6 + 10000;
+                break;
             }
-            var frameInfo = jsonSource.frames['character'+frame].frame;
-  
+            var frameInfo = jsonSource.frames['character' + frame].frame;
+
             _cvs.width = _cvs.width;
             _ctx.drawImage(_img, frameInfo.x, frameInfo.y, frameInfo.w, _minHeight, _dx, _dy, frameInfo.w, _minHeight);
           }
-  
+
           if (!!duration && duration !== 'infinite') {
-            win[namespace].animationStop = setTimeout(function(){
+            win[namespace].animationStop = setTimeout(function () {
               endMotion();
               cancelAnimationFrame(win[namespace].animationTimer);
             }, duration)
-          } 
+          }
         }
-        
+
       }
     },
     init: function () {
@@ -678,7 +933,7 @@
         win[namespace].nav.slidingMenu(); // show/hide evt on nav
         win[namespace].nav.openDepth2(); // 2depth links evt on nav
 
-        win[namespace].acco.init();
+        win[namespace].accordion.init();
 
         $(doc).on('click', '.btn-top', function () {
           $('body, html').animate({
