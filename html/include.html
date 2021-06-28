@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="description" content="안녕하세요, 은졔입니다.">
+  <meta name="keywords" content="은지혜, 은졔, eunjye">
+
+  <title>eunjye</title>
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../resource/css/app.css">
+
+  <script src="../resource/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="../resource/js/lib/bluebird.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
+  <script src="../resource/js/common.js"></script>
+</head>
+<body>
+  <main id="wrap" class="main-wrap">
+    <header class="header-area fixed"></header>
+
+    <!-- [Start] main-area -->
+    <section class="main-area" id="main">
+      <div class="cont-area">
+        <div class="cont-grid">
+          <h2 class="tit-d2 highlight"><span>Include</span></h2>
+
+          <h3 class="tit-d3">Header & Footer</h3>
+          <ul class="bul-dot">
+            <li>여러 페이지에 공통적으로 들어가야하는 영역은 include/ 폴더에 html파일로 따로 저장. <br>ajax를 이용하여 불러온 뒤, promise로 이후 동작 실행.
+              <div class="txt-sub">promise는 IE에서 작동하지 않으므로 <a href="http://bluebirdjs.com/docs/getting-started.html" target="_blank" title="새 창으로 열림" class="underline">bluebird.js</a>를 함께 이용.</div>
+            </li>
+            <li>include file을 불러온 뒤, html 파일 내 .header-area, .footer-area에 붙여넣음.</li>
+          </ul>
+
+          <h3 class="tit-d3">Source</h3>
+          <pre><code class="js">win[namespace] = {
+  navLoad: function () {
+    (function () {
+      return new Promise(function (resolve, reject) {
+        $.get('/profile/html/include/header.html', function (response) {
+          if (response) {
+            resolve(response);
+          }
+          reject(new Error('Request is failed'));
+        });
+      });
+    })()
+    .then(function (data) {
+      $('.header-area').html(data);
+      // header load 후 evt
+      win[namespace].nav.hoverMenu(); // hover evt on nav
+      win[namespace].nav.slidingMenu(); // show/hide evt on nav
+      win[namespace].nav.openDepth2(); // 2depth links evt on nav
+
+    }).catch(function (err) {
+      console.error('win.' + namespace + '.navLoad failed!!');
+    });
+  },
+  footerLoad: function () {
+    (function () {
+      return new Promise(function (resolve, reject) {
+        $.get('/profile/html/include/footer.html', function (response) {
+          if (response) {
+            resolve(response);
+          }
+          reject(new Error('Request is failed'));
+        });
+      });
+    })().then(function (data) {
+      $('.footer-area').html(data);
+    }).catch(function (err) {
+      console.error('win.' + namespace + '.footerLoad failed!!');
+    });
+  },
+}</code></pre>
+
+
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        ;(function ($, win, doc, undefined) {
+          $(doc).on('ready.eunjye', function(){
+            // eunjye.navFixed.init();
+            hljs.initHighlightingOnLoad();
+          });
+        })(jQuery, window, document);
+      </script>
+    </section>
+    <!-- // [End] main-area -->
+    <footer class="footer-area"></footer>
+  </main>
+</body>
+</html>
