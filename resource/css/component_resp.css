@@ -56,7 +56,8 @@
 	.header-area .gnb-area { display:block; float:none; position:fixed; padding:70px 0 20px; margin:0; top:0; left:-100%; background:#fff; width:100%; height:100%; transition:all ease-in-out .35s; }
 	.header-area.open .gnb-area { left:0; }
 	.header-area.open:after { opacity:0; }
-	.header-area .logo { z-index:2; position:absolute; left:15px; top:50%; transform:translateY(-50%); margin:0; }
+	.header-area .logo { z-index:2; position:absolute; left:15px; top:50%; transform:translateY(-50%); margin:0; display:inline-block; width:auto; }
+	.header-area .logo h1 { display:inline-block; }
 	.header-area .btn-menu { z-index:2; display:block; position:absolute; top:19px; right:15px; }
 	.header-area.open { z-index:20;  }
 	.header-area.open .btn-menu:after,
