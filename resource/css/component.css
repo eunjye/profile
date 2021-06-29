@@ -89,7 +89,7 @@ body { font-family:'Roboto', 'NotoSans', 'Dotum', 'sans-serif'; font-weight:400;
 .btn-delete span { position:absolute; display:block; width:1px; height:1px; font-size:xx-small; opacity:0; color:transparent; overflow:hidden; }
 .btn-delete:before { position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('/profile/resource/img/ico_delete.png') 0 0/20px auto; content:""; }
 
-.page-util { position:fixed; bottom:0; right:0; width:100%; }
+.page-util { position:fixed; bottom:0; right:0; }
 .page-util .inner { display:block; max-width:1340px; margin:0 auto; text-align:right; padding:40px 20px; text-align:right; }
 .is-home .btn-top { opacity:0; }
 .btn-top { position:relative; display:inline-block; width:50px; height:50px; border-radius:50%; background:#fff; font-size:16px; text-align:center; line-height:50px; border:1px solid rgb(233, 233, 233); box-shadow:0 0 6px rgba(0,0,0,.2); color:#666; overflow:hidden; transition:all ease-in-out .4s; }
@@ -959,12 +959,16 @@ p.no-data .txt-small { display:block; margin-top:7px; font-size:13px; }
 .list-upper.type-util .utils .check-item label { padding-top:2px; font-size:15px; }
 .list-upper.type-data { border-bottom:1px solid #e0e0e0; text-align:right; font-size:11px; color:#757575; padding:7px 25px; }
 
+@media (min-width:1260px) {
+    .page-util { right:calc(50% - 600px)}
+}
+
 @media (max-width:1260px) {
-	/* grid */
+    /* grid */
 	.header-area .header-grid { padding:0 50px; }
 	.cont-grid { padding:45px 20px 50px; }
 	.footer-area .footer-grid { padding:40px 20px 45px; }
-
+    
 }
 
 /* only PC */
@@ -978,5 +982,5 @@ p.no-data .txt-small { display:block; margin-top:7px; font-size:13px; }
 	.header-area.hover .header-inner { height:235px; box-shadow:0 5px 8px rgba(0,0,0,.1); }
 	.header-area.hover .nav-d1 > li { color:#000; font-weight:400; }
 
-    .header-area .page-util { display:none; }
+    /* .header-area .page-util { display:none; } */
 }

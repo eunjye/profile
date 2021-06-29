@@ -41,9 +41,10 @@
             <ul class="bul-dot">
               <li><strong class="fw-m">scrollCheck</strong>
                 <ul class="bul-hyphen">
-                  <li><strong class="fw-r">window.eunjye.status.scrollIsHome()</strong> : {boolean} 스크롤이 최상단에 위치하는지 여부 return</li>
-                  <li><strong class="fw-r">window.eunjye.status.scrollIsEnd()</strong> : {boolen} 스크롤이 최하단에 위치하는지 여부 return</li>
-                  <li><strong class="fw-r">window.eunjye.status.scrollDirection</strong> : {string('up'||'down')} 스크롤이 마지막에 어떤 방향으로 움직였는지 return</li>
+                  <li><strong class="fw-r">window.eunjye.status.scrollIsHome()</strong> : {boolean} 스크롤이 최상단에 위치하는지 return</li>
+                  <li><strong class="fw-r">window.eunjye.status.scrollIsEnd()</strong> : {boolen} 스크롤이 최하단에 위치하는지 return</li>
+                  <li><strong class="fw-r">window.eunjye.status.scrollDirection</strong> : {string('up'||'down')} 스크롤이 마지막에 어떤 방향으로 움직였는지 return
+                    <p class="txt-sub">(ex: 모바일에서 스크롤 방향에 따라 헤더 노출)</p></li>
                 </ul>
               </li>
           </div>
@@ -52,9 +53,11 @@
             <ul class="bul-dot">
               <li><strong class="fw-m">isInview</strong>
                 <ul class="bul-hyphen">
+                  <li>$.fn.inView : 뷰포트 안에 특정 객체가 보이고 있는지 return (jQuery 사용자 정의 함수)</li>
                   <li><strong class="fw-r">window.eunjye.isInview(jQueryElement)</strong> : $.fn.inView()로 true/false 체크 후, 해당 객체에 'ui-in' 클래스 토글
                   <pre><code class="js">window.eunjye.isInview($('.tit-d2'))</code></pre>
                   </li>
+                  <li>IE 외에는 <a href="https://developer.mozilla.org/ko/docs/Web/API/Intersection_Observer_API" target="_blank" title="새 창으로 열림" class="underline">Intersection Observer API</a>로 대체 가능</li>
                 </ul>
               </li>
           </div>
@@ -75,10 +78,10 @@
     var _height = $el.outerHeight();
     var _width = $el.outerWidth();
 
-    _flag = _top &lt; (window.pageYOffset + window.innerHeight) &&
-        _left &lt; (window.pageXOffset + window.innerWidth) &&
-        (_top + _height) > window.pageYOffset &&
-        (_left + _width) > window.pageXOffset;
+    _flag = _top &lt; (win.pageYOffset + win.innerHeight) &&
+        _left &lt; (win.pageXOffset + win.innerWidth) &&
+        (_top + _height) > win.pageYOffset &&
+        (_left + _width) > win.pageXOffset;
 
     return _flag;
   };

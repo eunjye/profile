@@ -35,6 +35,12 @@
         <div class="cont-grid">
           <h2 class="tit-d2 highlight"><span>Toast js</span></h2>
 
+          <h3 class="tit-d3">Introduction</h3>
+          <ul class="bul-dot">
+            <li>각 토스트마다 타입 지정 가능</li>
+            <li>같은 타입의 토스트는 중복 노출될 수 없지만, 다른 타입의 토스트는 중복 노출 가능</li>
+          </ul>
+
           <h3 class="tit-d3">Options</h3>
           <div class="tbl-base type-opt">
             <table>
@@ -111,6 +117,7 @@ window.eunjye.toast.toggleToast({
 window.eunjye.toast.toggleToast({
   type:'favorite-fund',
   target: $('#btnA'),
+  delay: 3000,
   message: ['첫번째&lt;br>메시지', '두번째&lt;br>메시지'],
 });
 
@@ -134,6 +141,7 @@ window.eunjye.toast.toggleToast({
               window.eunjye.toast.toggleToast({
                 type:'favorite-fund',
                 target: $('#btnA'),
+                delay: 3000,
                 message: ['첫번째<br>메시지', '두번째<br>메시지'],
               })
             "><span>favorite-fund type</span></button>
@@ -210,15 +218,13 @@ window.eunjye.toast.toggleToast({
             endCallback(); // endCallback 
         }, delay);
     },
-    hideToast: function(alertType) {
-        $('.ui-toast.'+alertType).removeClass('on');
-        setTimeout(function () {
-            $('.ui-toast.'+alertType).remove();
-            if (!$('.ui-toast').length) {
-                win[namespace].toast.activeToast = [];
-            }
-        }, 200);
-    },
+    hideToast: function (alertType) {
+      $('.ui-toast.' + alertType).removeClass('on');
+      setTimeout(function () {
+        $('.ui-toast.' + alertType).remove();
+        win[namespace].toast.activeToast.splice(win[namespace].toast.activeToast.indexOf(alertType), 1);
+      }, 200);
+    }
   }
 }</code></pre>
 

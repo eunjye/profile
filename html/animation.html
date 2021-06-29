@@ -37,9 +37,9 @@
 
           <h3 class="tit-d3">Introduce</h3>
           <ul class="bul-dot">
-            <li>시퀀스 애니메이션<span class="fc-point">*</span> 정보를 담은 json 파일을 ajax로 불러온 뒤, 원하는 시간/애니메이션을 동작시키기 위한 기능.
-              <p class="txt-sub"><span class="fc-point">*</span>시퀀스 애니메이션 json파일은 <span class="underline">Adobe Animate</span>에서 json export를 이용하여 추출 가능</p></li>
-            <li>ajax 외의 모든 소스는 vanillaJS로 작성.</li>
+            <li>애니메이션의 프레임들이 들어가 있는 이미지파일과 각 프레임의 크기/위치 등의 정보를 가지고 있는 json 파일<span class="fc-point">*</span>이 필요<p class="txt-sub"><span class="fc-point">*</span>시퀀스 애니메이션 json파일은 <span class="underline">Adobe Animate</span>에서 json export를 이용하여 추출 가능</p></li>
+            <li>시퀀스 애니메이션 정보를 담은 json 파일을 ajax로 불러온 뒤, 원하는 시간동안 애니메이션을 동작시키기 위한 기능</li>
+            <li>ajax 외의 모든 소스는 vanillaJS로 작성</li>
             <li><a href="https://velog.io/@eunjye/requestAnimationFrame-시퀀스-애니메이션-제작기" target="_blank" title="새 창으로 열림" class="btn-link fc-primary">requestAnimationFrame을 통한 시퀀스애니메이션 제작기</a></li>
           </ul>
 
@@ -77,7 +77,7 @@
                 </tr>
                 <tr>
                   <th scope="row">type<i class="ico-require"><span>필수</span></i></th>
-                  <td>string <br>('filename==json file's key')</td>
+                  <td>string <br>('image filename==json file's key')</td>
                   <td>
                     해당 애니메이션의 이미지 파일명, 애니메이션 json파일의 key값<br>
                     (파일명과 key값은 같아야 함)
@@ -107,7 +107,9 @@
 
 window.eunjye.animationStatus('play', 'animation1', 5000);
 
-window.eunjye.animationStatus('play', 'animation2', 'infinite');</code></pre>
+window.eunjye.animationStatus('play', 'animation2', 'infinite');
+
+window.eunjye.animationStatus('stop');</code></pre>
 
           <div class="btn-area">
             <button type="button" class="btn-base" onclick="
@@ -180,7 +182,7 @@ window.eunjye.animationStatus('play', 'animation2', 'infinite');</code></pre>
         _cvs.width = 500;
         _cvs.height = _minHeight;
 
-        _ctx.drawImage(_img, 0, 0, 700, _minHeight, _dx, _dy, 700, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        _ctx.drawImage(_img, 0, 0, _cvs.width, _minHeight, _dx, _dy, _cvs.width, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
         _cvs.classList = 'type-'+type;
 
         if (status !== 'play'){
@@ -191,6 +193,7 @@ window.eunjye.animationStatus('play', 'animation2', 'infinite');</code></pre>
       if (status === 'play'){
         _img.onload = function(e) {
           !!callback && callback();
+          _cvs.classList = 'type-'+type;
           doAnimation();
         }
 
@@ -237,7 +240,7 @@ window.eunjye.animationStatus('play', 'animation2', 'infinite');</code></pre>
 
         if (!!duration && duration !== 'infinite') {
           win[namespace].animationStop = setTimeout(function(){
-            endMotion();
+            endMotion(); // 마지막에 보여주고 싶은 프레임으로 그려줌
             cancelAnimationFrame(win[namespace].animationTimer);
           }, duration)
         } 

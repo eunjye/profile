@@ -14,10 +14,10 @@
     var _height = $el.outerHeight();
     var _width = $el.outerWidth();
 
-    _flag = _top < (window.pageYOffset + window.innerHeight) &&
-      _left < (window.pageXOffset + window.innerWidth) &&
-      (_top + _height) > window.pageYOffset &&
-      (_left + _width) > window.pageXOffset;
+    _flag = _top < (win.pageYOffset + win.innerHeight) &&
+      _left < (win.pageXOffset + win.innerWidth) &&
+      (_top + _height) > win.pageYOffset &&
+      (_left + _width) > win.pageXOffset;
 
     return _flag;
   };
@@ -713,9 +713,7 @@
         $('.ui-toast.' + alertType).removeClass('on');
         setTimeout(function () {
           $('.ui-toast.' + alertType).remove();
-          if (!$('.ui-toast').length) {
-            win[namespace].toast.activeToast = [];
-          }
+          win[namespace].toast.activeToast.splice(win[namespace].toast.activeToast.indexOf(alertType), 1);
         }, 200);
       },
       run: function () {
@@ -845,7 +843,7 @@
           _cvs.width = 500;
           _cvs.height = _minHeight;
 
-          _ctx.drawImage(_img, 0, 0, 700, _minHeight, _dx, _dy, 700, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+          _ctx.drawImage(_img, 0, 0, _cvs.width, _minHeight, _dx, _dy, _cvs.width, _minHeight); // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
           _cvs.classList = 'type-' + type;
 
           if (status !== 'play') {
@@ -856,6 +854,7 @@
         if (status === 'play') {
           _img.onload = function (e) {
             !!callback && callback();
+            _cvs.classList = 'type-'+type;
             doAnimation();
           }
 
