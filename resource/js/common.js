@@ -161,7 +161,7 @@
     nav: {
       hoverMenu: function () {
         var $header = $('.header-area');
-        var $links = $header.find('.gnb-area .nav-d1 .item');
+        var $links = $header.find('.gnb-area .nav-d1 .item, .gnb-area .nav-d1 a');
         var flag = {};
 
         $links
