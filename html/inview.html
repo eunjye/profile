@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="description" content="안녕하세요, 은졔입니다.">
+  <meta name="keywords" content="은지혜, 은졔, eunjye">
+
+  <title>eunjye</title>
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../resource/css/app.css">
+
+  <script src="../resource/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="../resource/js/lib/bluebird.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><!-- hightlightJS -->
+  <script src="../resource/js/common.js"></script>
+</head>
+<body>
+  <main id="wrap" class="main-wrap">
+    <header class="header-area fixed"></header>
+
+    <!-- [Start] main-area -->
+    <section class="main-area" id="main">
+      <div class="cont-area">
+        <div class="cont-grid">
+          <h2 class="tit-d2 highlight"><span>Inview</span></h2>
+
+          <h3 class="tit-d3">Introduction</h3>
+          <ul class="bul-dot">
+            <li>뷰포트 내에 객체가 존재하는지 여부 return</li>
+            <li>뷰포트 영역 내 제외할 범위 지정 가능</li>
+          </ul>
+
+          <h3 class="tit-d3">Options</h3>
+          <div class="tbl-base type-opt">
+            <table>
+              <colgroup class="only-pc">
+                <col class="col-xxs">
+                <col class="col-s">
+                <col class="col-l">
+              </colgroup>
+              <colgroup class="only-resp">
+                <col style="width:100px;">
+                <col style="width:170px;">
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">key</th>
+                  <th scope="col">value type</th>
+                  <th scope="col">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">target</th>
+                  <td>HTMLElement</td>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>inview 체크할 DOM 요소</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">margin</th>
+                  <td>object {top: number(%), bottom: number(%)}</td>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>뷰포트 영역 중 위 아래에서 제외할 범위</li>
+                      <li>% 단위를 붙일 시, 전체 뷰포트의 n%만큼을 제외</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          <h3 class="tit-d3">Event</h3>
+          <ul class="bul-dot">
+            <li>target element에 addEventListener 실행하여 활용</li>
+            <li>인스턴스 생성 전에 addEventListener 를 먼저 실행</li>
+          </ul>
+          <div class="tbl-base type-opt">
+            <table>
+              <colgroup class="only-pc">
+                <col class="col-xxs">
+                <col>
+              </colgroup>
+              <colgroup class="only-resp">
+                <col style="width:100px;">
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">name</th>
+                  <th scope="col">description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">screenOn</th>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>DOM이 범위 내에 존재할 때 발생</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">screenOut</th>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>DOM이 범위 밖에 존재할 때 발생</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">screenIn</th>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>DOM이 범위 밖에서 안으로 들어왔을 때 발생</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">screenOff</th>
+                  <td>
+                    <ul class="bul-dot">
+                      <li>DOM이 범위 안에서 밖으로 나갈 때 발생</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          
+          <h3 class="tit-d3">Run</h3>
+          <pre><code class="js">var elItem = document.querySelector('#item');
+elItem.addEventListener('screenOn', function(){
+  this.classList.add('is-in');
+})
+elItem.addEventListener('screenOut', function(){
+  this.classList.remove('is-in');
+})
+var moduleScrollPosition = new window.eunjye.ScrollPositionController({
+  'target': elItem,
+  'margin': {
+    top: '10%',
+    bottom: '40%'
+  }
+});</code></pre>
+          <h3 class="tit-d3">Source</h3>
+          <pre><code class="js">win[namespace].ScrollPositionController = function(prop){
+  var _self = this;
+  var _target;
+  var _isScreenIn = false;
+
+  var _height = 0;  
+  var _margin = {'top':0, 'bottom':0};
+  var margin = {'top':0, 'bottom':0};
+
+  var winY = 0;
+  var winX = 0;
+  var _top = 0;
+  var _left = 0;
+  var _height = 0;
+  var _width = 0;
+
+  function init(){
+    if (document.body.dataset.domloaded === undefined) { // dom load 되기 전 실행되면 load 하고 실행
+      document.addEventListener('DOMContentLoaded', function(){
+        setTarget();
+        _self.update();
+        setScrollEvent();
+        setScreenInOutEvent();
+        setScreenOnEvent();
+      });
+
+      return;
+    }
+    setTarget();
+    _self.update();
+    setScrollEvent();
+    setScreenInOutEvent();
+    setScreenOnEvent();
+  }
+
+    function setTarget(){
+    _target = prop['target'];
+    _target.module = _self;
+  }
+
+  function setScrollEvent(){
+    onScrollEvent();
+    window.addEventListener('scroll', onScrollEvent);
+  }
+
+  function onScrollEvent(e){
+    _self.update();
+
+    _flag = _top < (winY + window.innerHeight - margin.bottom) &&
+    _left < (winX + window.innerWidth) &&
+    (_top + _height) > winY + margin.top &&
+    (_left + _width) > winX;
+
+
+    if (_flag) {
+      if(!_isScreenIn){
+        _isScreenIn = true;
+        _target.dispatchEvent(new CustomEvent('screenIn'));
+      }
+      _target.dispatchEvent(new CustomEvent('screenOn'));
+
+      return;
+    }
+  
+    if(_isScreenIn){
+      _isScreenIn = false;
+      _target.dispatchEvent(new CustomEvent('screenOut'));
+    }
+    
+    _target.dispatchEvent(new CustomEvent('screenOff'));
+  }
+
+  function setScreenInOutEvent(){
+    _target.addEventListener('screenIn', onScreenInHandler);
+    _target.addEventListener('screenOut', onScreenOutHandler);
+  }
+
+  function onScreenInHandler(e){
+  }
+
+  function onScreenOutHandler(e){
+  }
+
+  function setScreenOnEvent(){
+    _target.addEventListener('screenOn', onScreenOnHandler);
+  }
+
+  function onScreenOnHandler(e){
+  }
+
+  this.update = function(){
+    var docHeight = 0;
+
+    if (document.querySelector('.dock-menu') !== null) {
+      var $docbar = document.querySelector('.dock-menu');
+      docHeight = $docbar.querySelector('.dock-depth2') !== null ? $docbar.offsetHeight + $docbar.querySelector('.dock-depth2').offsetHeight : $docbar.offsetHeight;
+    }
+
+    var windowHeight = window.innerHeight - docHeight;
+
+    function convertSize(before) {
+      if (typeof(before) === 'string') {
+        before = before.trim();
+        if (before.substr(-1) === '%') {
+          return Math.floor(windowHeight * (parseInt(before)/100));
+        }
+        return parseInt(before);
+      }
+      return before;
+    }
+
+    _margin = UIComponent.Common.deepExtend({}, _margin, prop['margin']);
+    margin.top = convertSize(_margin.top);
+    margin.bottom = convertSize(_margin.bottom) + docHeight;
+
+    _self.updatePosition();
+  }
+
+  this.updatePosition = function(){
+    var rect = _target.getBoundingClientRect();
+
+    winY = document.documentElement.scrollTop;
+    winX = document.documentElement.scrollLeft;
+
+    _top = rect.top + document.documentElement.scrollTop;
+    _left = rect.left + document.documentElement.scrollLeft;
+    _height = _target.offsetHeight;
+    _width = _target.offsetWidth;
+  }
+
+  init();
+}</code></pre>
+
+
+
+
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        ;(function ($, win, doc, undefined) {
+          $(doc).on('ready.eunjye', function(){
+            // eunjye.navFixed.init();
+            hljs.initHighlightingOnLoad();
+          });
+        })(jQuery, window, document);
+      </script>
+    </section>
+    <!-- // [End] main-area -->
+    <footer class="footer-area"></footer>
+  </main>
+</body>
+</html>
