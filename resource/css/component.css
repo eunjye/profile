@@ -979,7 +979,7 @@ p.no-data .txt-small { display:block; margin-top:7px; font-size:13px; }
     .nav-d1 { position:absolute; top:40px; right:0; padding-right:52px; width:calc(100% - 257px); }
     .nav-d2 > li > a { opacity:0; }
     .header-area.hover .nav-d2 > li > a { opacity:1; }
-	.header-area.hover .header-inner { height:235px; box-shadow:0 5px 8px rgba(0,0,0,.1); }
+	.header-area.hover .header-inner { height:255px; box-shadow:0 5px 8px rgba(0,0,0,.1); }
 	.header-area.hover .nav-d1 > li { color:#000; font-weight:400; }
 
     /* .header-area .page-util { display:none; } */
